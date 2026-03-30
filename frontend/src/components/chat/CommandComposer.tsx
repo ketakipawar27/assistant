@@ -96,12 +96,19 @@ export function CommandComposer() {
           </div>
         </div>
         
-        {/* Footer hints */}
-        <div className="flex justify-between items-center mt-2 px-2">
-          <div className={cn("text-[10px] text-[var(--muted)]", persona === 'sudo' && "font-mono")}>
-            Press <kbd className="px-1.5 py-0.5 bg-[var(--surface)] border border-[var(--border)] rounded text-[9px]">Enter</kbd> to send, <kbd className="px-1.5 py-0.5 bg-[var(--surface)] border border-[var(--border)] rounded text-[9px]">Shift + Enter</kbd> for new line
+        {/* Footer hints & Quick Actions */}
+        <div className="flex justify-between items-center mt-3 px-2">
+          <div className="flex items-center gap-2 overflow-x-auto no-scrollbar">
+            {['Open App', 'Screenshot', 'Search Files', 'Summarize Folder'].map((action, i) => (
+              <button key={i} className={cn(
+                "whitespace-nowrap px-2.5 py-1 text-[10px] font-medium bg-[var(--surface)] border border-[var(--border)] rounded-full text-[var(--muted)] hover:text-[var(--text)] hover:border-[var(--accent)] transition-colors",
+                persona === 'sudo' && "font-mono rounded-sm hover:border-emerald-500 hover:text-emerald-400"
+              )}>
+                {action}
+              </button>
+            ))}
           </div>
-          <div className={cn("text-[10px] text-[var(--muted)] flex items-center gap-1", persona === 'sudo' && "font-mono")}>
+          <div className={cn("text-[10px] text-[var(--muted)] flex items-center gap-1 shrink-0 ml-4", persona === 'sudo' && "font-mono")}>
             <div className={cn("w-1.5 h-1.5 rounded-full", isExecuting ? "bg-amber-500 animate-pulse" : "bg-emerald-500")} />
             {isExecuting ? 'System Busy' : 'System Ready'}
           </div>

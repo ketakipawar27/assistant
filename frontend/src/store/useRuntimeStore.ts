@@ -33,12 +33,18 @@ interface ActionResultState {
   onAction?: () => void;
 }
 
+interface FloatingChatState {
+  isOpen: boolean;
+  mode: 'collapsed' | 'popup' | 'expanded';
+}
+
 interface RuntimeState {
   assistantState: AssistantState;
   voiceOverlay: VoiceOverlayState;
   confirmation: ConfirmationState;
   taskProgress: TaskProgressState;
   actionResult: ActionResultState;
+  floatingChat: FloatingChatState;
   toasts: Toast[];
 
   setAssistantState: (state: AssistantState) => void;
@@ -46,6 +52,7 @@ interface RuntimeState {
   setConfirmation: (state: Partial<ConfirmationState>) => void;
   setTaskProgress: (state: Partial<TaskProgressState>) => void;
   setActionResult: (state: Partial<ActionResultState>) => void;
+  setFloatingChat: (state: Partial<FloatingChatState>) => void;
   addToast: (toast: Omit<Toast, 'id'>) => void;
   removeToast: (id: string) => void;
   reset: () => void;
@@ -57,6 +64,7 @@ export const useRuntimeStore = create<RuntimeState>((set) => ({
   confirmation: { isOpen: false, title: '', message: '' },
   taskProgress: { isOpen: false, taskName: '', progress: 0, status: 'running' },
   actionResult: { isOpen: false, title: '', description: '' },
+  floatingChat: { isOpen: false, mode: 'collapsed' },
   toasts: [],
 
   setAssistantState: (state) => set({ assistantState: state }),
@@ -64,6 +72,7 @@ export const useRuntimeStore = create<RuntimeState>((set) => ({
   setConfirmation: (state) => set((s) => ({ confirmation: { ...s.confirmation, ...state } })),
   setTaskProgress: (state) => set((s) => ({ taskProgress: { ...s.taskProgress, ...state } })),
   setActionResult: (state) => set((s) => ({ actionResult: { ...s.actionResult, ...state } })),
+  setFloatingChat: (state) => set((s) => ({ floatingChat: { ...s.floatingChat, ...state } })),
   
   addToast: (toast) => {
     const id = Math.random().toString(36).substring(2, 9);

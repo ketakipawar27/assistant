@@ -49,7 +49,7 @@ export function Chat() {
           
           <ChatMessage role="assistant" timestamp="10:42 AM">
             <ToolExecutionCard name="system.openApp" status="completed" details="Launched Visual Studio Code" />
-            <ToolExecutionCard name="system.executeCommand" status="completed" details="cd ~/Projects/portfolio && code ." />
+            <ToolExecutionCard name="system.executeCommand" status="completed" details="cd ~/Projects/portfolio && code ." isLast />
             <ResultCard title="Workspace Ready" description="I've opened your portfolio project in VS Code." iconType="success" />
           </ChatMessage>
 
@@ -57,7 +57,7 @@ export function Chat() {
 
           <ChatMessage role="assistant" timestamp="10:45 AM">
             <ToolExecutionCard name="fs.readDirectory" status="completed" details="Scanned ~/Downloads (12 files found)" />
-            <ToolExecutionCard name="ai.summarizeDocuments" status="completed" details="Processed 3 PDF documents" />
+            <ToolExecutionCard name="ai.summarizeDocuments" status="completed" details="Processed 3 PDF documents" isLast />
             <FileSummaryCard 
               files={[
                 { name: 'Q3_Financial_Report.pdf', size: '2.4 MB' },
@@ -72,7 +72,7 @@ export function Chat() {
           <ChatMessage role="user" content="Do you want me to delete these 12 duplicate files?" timestamp="10:48 AM" />
 
           <ChatMessage role="assistant" timestamp="10:48 AM">
-            <ToolExecutionCard name="fs.findDuplicates" status="completed" details="Found 12 duplicate files (4.2 GB total)" />
+            <ToolExecutionCard name="fs.findDuplicates" status="completed" details="Found 12 duplicate files (4.2 GB total)" isLast />
             <ConfirmationRequestCard 
               title="Delete Duplicate Files" 
               message="I found 12 duplicate files taking up 4.2 GB of space in your Downloads folder. Do you want me to permanently delete them?"
@@ -83,7 +83,7 @@ export function Chat() {
 
           <ChatMessage role="assistant" timestamp="10:51 AM">
             <ToolExecutionCard name="system.captureScreen" status="completed" details="Captured display 1 (1920x1080)" />
-            <ToolExecutionCard name="system.copyToClipboard" status="completed" details="Image copied to clipboard" />
+            <ToolExecutionCard name="system.copyToClipboard" status="completed" details="Image copied to clipboard" isLast />
             <ResultCard title="Screenshot Copied" description="The screenshot has been taken and copied to your clipboard. You can paste it anywhere." iconType="info" />
           </ChatMessage>
 
@@ -91,7 +91,7 @@ export function Chat() {
           {assistantState === 'executing' && (
             <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
               <ChatMessage role="assistant" timestamp="Just now">
-                <ToolExecutionCard name="system.runningTask" status="running" details="Processing your request..." />
+                <ToolExecutionCard name="system.runningTask" status="running" details="Processing your request..." isLast />
               </ChatMessage>
             </motion.div>
           )}

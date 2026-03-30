@@ -72,7 +72,7 @@ export function ChatMessage({ role, content, children, timestamp }: ChatMessageP
 
         {/* Rich Blocks (Tools, Results, etc) */}
         {children && (
-          <div className="flex flex-col gap-2 w-full mt-1">
+          <div className="flex flex-col w-full mt-1">
             {children}
           </div>
         )}

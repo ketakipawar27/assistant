@@ -2,7 +2,7 @@ import { PageHeader } from '@/components/common/PageHeader';
 import { useRuntimeStore } from '@/store/useRuntimeStore';
 import { useAppStore } from '@/store/useAppStore';
 import { cn } from '@/lib/utils';
-import { Mic, Image, AlertTriangle, PlaySquare, XOctagon, Activity } from 'lucide-react';
+import { Mic, Image, AlertTriangle, PlaySquare, XOctagon, Activity, MessageSquare } from 'lucide-react';
 import { AssistantOrb } from '@/components/runtime/AssistantOrb';
 
 const delay = (ms: number) => new Promise(res => setTimeout(res, ms));
@@ -16,41 +16,56 @@ export function RuntimePreview() {
     setConfirmation, 
     setTaskProgress, 
     setActionResult, 
+    setFloatingChat,
     addToast, 
     reset 
   } = useRuntimeStore();
 
   const simulateVoiceCommand = async () => {
     reset();
-    setVoiceOverlay({ isOpen: true, transcript: 'Summarize the latest financial report.' });
+    
+    // Stage 1: Wake / Ready
+    setVoiceOverlay({ isOpen: true, transcript: '', taskPreview: '' });
+    setAssistantState('idle');
+    await delay(800);
+
+    // Stage 2: Live Listening
     setAssistantState('listening');
     
-    await delay(1500);
+    const fullTranscript = "Open VS Code and summarize my Downloads folder";
+    const words = fullTranscript.split(' ');
+    let currentTranscript = '';
+
+    for (let i = 0; i < words.length; i++) {
+      currentTranscript += (i === 0 ? '' : ' ') + words[i];
+      setVoiceOverlay({ transcript: currentTranscript });
+      // Random delay between words for realism
+      await delay(150 + Math.random() * 200);
+    }
+
+    await delay(600); // Pause after speaking
+
+    // Stage 3: Thinking / Executing / Replying
     setAssistantState('thinking');
-    setVoiceOverlay({ taskPreview: 'Analyzing Q3_Financial_Report.pdf...' });
+    setVoiceOverlay({ taskPreview: 'Parsing intent...' });
+    await delay(1200);
     
-    await delay(2000);
     setAssistantState('executing');
-    setVoiceOverlay({ taskPreview: 'Extracting key metrics...' });
-    
-    await delay(2000);
-    setAssistantState('completed');
-    setVoiceOverlay({ taskPreview: 'Summary saved to notes.' });
-    
+    setVoiceOverlay({ taskPreview: 'system.openApp' });
     await delay(1000);
+    
+    setVoiceOverlay({ taskPreview: 'fs.readDirectory' });
+    await delay(1000);
+
+    setVoiceOverlay({ taskPreview: 'ai.summarizeDocuments' });
+    await delay(1500);
+
+    setAssistantState('completed');
+    setVoiceOverlay({ taskPreview: 'VS Code opened. Downloads folder contains 12 files, mostly PDF reports.' });
+    
+    await delay(3000);
     setVoiceOverlay({ isOpen: false });
     setAssistantState('idle');
-    
-    setActionResult({
-      isOpen: true,
-      title: 'File Summarized',
-      description: 'Q3_Financial_Report.pdf has been summarized.',
-      actionLabel: 'View Note',
-      onAction: () => addToast({ type: 'info', title: 'Opening Note...' })
-    });
-
-    await delay(4000);
-    setActionResult({ isOpen: false });
   };
 
   const simulateScreenshot = async () => {
@@ -165,6 +180,10 @@ export function RuntimePreview() {
     });
   };
 
+  const simulateFloatingChat = () => {
+    setFloatingChat({ isOpen: true, mode: 'collapsed' });
+  };
+
   return (
     <div className="p-8 max-w-6xl mx-auto space-y-8 pb-32">
       <PageHeader 
@@ -183,6 +202,7 @@ export function RuntimePreview() {
               Scenarios
             </h3>
             <div className="space-y-3">
+              <ScenarioButton icon={MessageSquare} label="Floating Chat" onClick={simulateFloatingChat} />
               <ScenarioButton icon={Mic} label="Voice Command" onClick={simulateVoiceCommand} />
               <ScenarioButton icon={Image} label="Screenshot Action" onClick={simulateScreenshot} />
               <ScenarioButton icon={AlertTriangle} label="Dangerous Action" onClick={simulateDangerousAction} />
