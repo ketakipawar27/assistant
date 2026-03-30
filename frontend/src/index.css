@@ -1,0 +1,98 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+
+  /* Titan Theme */
+  --color-titan-bg: #09090b;
+  --color-titan-surface: #18181b;
+  --color-titan-border: #27272a;
+  --color-titan-accent: #3b82f6; /* Blue */
+  --color-titan-text: #f4f4f5;
+  --color-titan-muted: #a1a1aa;
+  --radius-titan: 0.75rem; /* rounded-xl */
+
+  /* Astra Theme */
+  --color-astra-bg: #0f0c29;
+  --color-astra-surface: #1e1b4b;
+  --color-astra-border: #312e81;
+  --color-astra-accent: #c084fc; /* Purple/Pink */
+  --color-astra-text: #fdf4ff;
+  --color-astra-muted: #d8b4fe;
+  --radius-astra: 1.5rem; /* rounded-3xl */
+
+  /* SUDO Theme */
+  --color-sudo-bg: #000000;
+  --color-sudo-surface: #0a0a0a;
+  --color-sudo-border: #1f2937;
+  --color-sudo-accent: #10b981; /* Emerald/Neon Green */
+  --color-sudo-text: #ecfdf5;
+  --color-sudo-muted: #6ee7b7;
+  --radius-sudo: 0.125rem; /* rounded-sm */
+}
+
+@layer base {
+  :root {
+    --bg: var(--color-titan-bg);
+    --surface: var(--color-titan-surface);
+    --border: var(--color-titan-border);
+    --accent: var(--color-titan-accent);
+    --text: var(--color-titan-text);
+    --muted: var(--color-titan-muted);
+    --panel-radius: var(--radius-titan);
+    --font-primary: var(--font-sans);
+    --font-secondary: var(--font-sans);
+  }
+
+  .theme-astra {
+    --bg: var(--color-astra-bg);
+    --surface: var(--color-astra-surface);
+    --border: var(--color-astra-border);
+    --accent: var(--color-astra-accent);
+    --text: var(--color-astra-text);
+    --muted: var(--color-astra-muted);
+    --panel-radius: var(--radius-astra);
+    --font-primary: var(--font-sans);
+    --font-secondary: var(--font-sans);
+  }
+
+  .theme-sudo {
+    --bg: var(--color-sudo-bg);
+    --surface: var(--color-sudo-surface);
+    --border: var(--color-sudo-border);
+    --accent: var(--color-sudo-accent);
+    --text: var(--color-sudo-text);
+    --muted: var(--color-sudo-muted);
+    --panel-radius: var(--radius-sudo);
+    --font-primary: var(--font-sans);
+    --font-secondary: var(--font-mono);
+  }
+
+  body {
+    background-color: var(--bg);
+    color: var(--text);
+    font-family: var(--font-primary);
+    overflow: hidden; /* Desktop app feel */
+  }
+}
+
+/* Custom scrollbar for a premium feel */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--muted);
+}
