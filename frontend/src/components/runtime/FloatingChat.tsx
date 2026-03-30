@@ -1,10 +1,10 @@
 import { useAppStore } from '@/store/useAppStore';
 import { useRuntimeStore } from '@/store/useRuntimeStore';
+import React, { useState } from 'react';
 import { cn } from '@/lib/utils';
 import { motion, AnimatePresence } from 'motion/react';
 import { Mic, X, Maximize2, Minimize2, TerminalSquare, BrainCircuit, Send, Paperclip, MonitorUp } from 'lucide-react';
 import { AssistantOrb } from './AssistantOrb';
-import { useState } from 'react';
 import { ToolExecutionCard, ResultCard } from '../chat/RichMessageBlocks';
 
 interface FloatingChatProps {
@@ -55,7 +55,7 @@ export function FloatingChat({ onOpenApp }: FloatingChatProps = {}) {
               isSudo && "rounded-sm border-emerald-500/30 hover:border-emerald-500/60 shadow-[0_0_20px_rgba(16,185,129,0.15)]"
             )}
           >
-            <AssistantOrb state={assistantState} size="sm" className="w-6 h-6" />
+            <AssistantOrb state={assistantState} size="sm" forceCircle className="w-7 h-7 shrink-0" />
             <span className={cn(
               "text-sm font-medium text-[var(--muted)] group-hover:text-[var(--text)] transition-colors tracking-wide",
               isSudo && "font-mono text-emerald-500/70 group-hover:text-emerald-400"
@@ -95,7 +95,7 @@ export function FloatingChat({ onOpenApp }: FloatingChatProps = {}) {
                 <div className={cn(
                   "w-7 h-7 rounded-full flex items-center justify-center shrink-0",
                   isTitan ? "bg-blue-600 shadow-[0_0_10px_rgba(59,130,246,0.3)]" :
-                  isSudo ? "bg-emerald-600 shadow-[0_0_10px_rgba(16,185,129,0.3)] rounded-sm border border-emerald-400/30" :
+                  isSudo ? "bg-emerald-600 shadow-[0_0_10px_rgba(16,185,129,0.3)] border border-emerald-400/30" :
                   "bg-purple-600 shadow-[0_0_10px_rgba(192,132,252,0.3)]"
                 )}>
                   {isSudo ? <TerminalSquare className="w-4 h-4 text-emerald-50" /> : <BrainCircuit className="w-4 h-4 text-white" />}

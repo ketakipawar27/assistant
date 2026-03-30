@@ -1,3 +1,4 @@
+import React from 'react';
 import { motion } from 'motion/react';
 import { cn } from '@/lib/utils';
 import { useAppStore } from '@/store/useAppStore';

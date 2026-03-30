@@ -125,7 +125,7 @@ export function FloatingVoiceAssistant({ state, transcript, taskPreview, onClose
                 exit={{ opacity: 0, scale: 0.8 }}
                 className="flex items-center justify-center relative z-10"
               >
-                <VoiceWaveform isListening={true} />
+                <VoiceWaveform state="listening" />
               </motion.div>
             ) : (
               <motion.div

@@ -1,10 +1,9 @@
 import { useRuntimeStore } from '@/store/useRuntimeStore';
-import { FloatingVoiceAssistant } from './FloatingVoiceAssistant';
+import { FloatingAssistantSystem } from './FloatingAssistantSystem';
 import { ConfirmationPanel } from './ConfirmationPanel';
 import { TaskProgressPanel } from './TaskProgressPanel';
 import { ActionResultCard } from './ActionResultCard';
 import { NotificationToast } from './NotificationToast';
-import { FloatingChat } from './FloatingChat';
 import { AnimatePresence } from 'motion/react';
 import { useNavigate } from 'react-router-dom';
 
@@ -16,6 +15,7 @@ export function GlobalRuntime() {
     confirmation, 
     taskProgress, 
     actionResult,
+    floatingChat,
     toasts,
     setVoiceOverlay,
     setConfirmation,
@@ -31,28 +31,9 @@ export function GlobalRuntime() {
 
   return (
     <>
-      {/* Floating Chat Layer */}
-      <FloatingChat onOpenApp={handleOpenApp} />
-
-      {/* Voice Overlay */}
+      {/* Floating Assistant System (Replaces FloatingChat and FloatingVoiceAssistant) */}
       <AnimatePresence>
-        {voiceOverlay.isOpen && (
-          <div className="fixed inset-x-0 bottom-12 z-[100] flex justify-center pointer-events-none">
-            <div className="pointer-events-auto">
-              <FloatingVoiceAssistant 
-                state={assistantState}
-                transcript={voiceOverlay.transcript}
-                taskPreview={voiceOverlay.taskPreview}
-                onClose={() => setVoiceOverlay({ isOpen: false })}
-                onStop={() => {
-                  useRuntimeStore.getState().setAssistantState('idle');
-                  setVoiceOverlay({ isOpen: false });
-                }}
-                onOpenApp={handleOpenApp}
-              />
-            </div>
-          </div>
-        )}
+        {floatingChat.isOpen && <FloatingAssistantSystem key="floating-assistant" />}
       </AnimatePresence>
 
       {/* Confirmation Panel */}

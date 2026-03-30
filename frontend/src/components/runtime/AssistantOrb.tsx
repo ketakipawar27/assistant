@@ -9,9 +9,10 @@ interface AssistantOrbProps {
   state?: AssistantState;
   size?: 'sm' | 'md' | 'lg';
   className?: string;
+  forceCircle?: boolean;
 }
 
-export function AssistantOrb({ state = 'idle', size = 'md', className }: AssistantOrbProps) {
+export function AssistantOrb({ state = 'idle', size = 'md', className, forceCircle }: AssistantOrbProps) {
   const persona = useAppStore((s) => s.persona);
 
   const sizeClasses = {
@@ -23,7 +24,7 @@ export function AssistantOrb({ state = 'idle', size = 'md', className }: Assista
   const getPersonaStyles = () => {
     if (persona === 'titan') return 'bg-blue-600 shadow-[0_0_30px_rgba(59,130,246,0.5)]';
     if (persona === 'astra') return 'bg-purple-600 shadow-[0_0_30px_rgba(192,132,252,0.5)] rounded-full';
-    if (persona === 'sudo') return 'bg-emerald-600 shadow-[0_0_20px_rgba(16,185,129,0.4)] rounded-sm border border-emerald-400/50';
+    if (persona === 'sudo') return `bg-emerald-600 shadow-[0_0_20px_rgba(16,185,129,0.4)] ${forceCircle ? '' : 'rounded-sm'} border border-emerald-400/50`;
     return '';
   };
 
@@ -57,15 +58,15 @@ export function AssistantOrb({ state = 'idle', size = 'md', className }: Assista
         "flex items-center justify-center cursor-pointer z-50",
         sizeClasses[size],
         getPersonaStyles(),
-        persona !== 'sudo' && persona !== 'astra' ? 'rounded-xl' : '',
+        forceCircle ? 'rounded-full' : (persona !== 'sudo' && persona !== 'astra' ? 'rounded-xl' : ''),
         className
       )}
       animate={getAnimationProps()}
     >
       {persona === 'sudo' ? (
-        <TerminalSquare className="w-1/2 h-1/2 text-emerald-50" />
+        <TerminalSquare className="w-[55%] h-[55%] text-emerald-50" />
       ) : (
-        <BrainCircuit className="w-1/2 h-1/2 text-white" />
+        <BrainCircuit className="w-[55%] h-[55%] text-white" />
       )}
     </motion.div>
   );
