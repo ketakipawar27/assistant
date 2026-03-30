@@ -39,25 +39,30 @@ export function RuntimePreview() {
     for (let i = 0; i < words.length; i++) {
       currentTranscript += (i === 0 ? '' : ' ') + words[i];
       setVoiceOverlay({ transcript: currentTranscript });
-      // Random delay between words for realism
-      await delay(150 + Math.random() * 200);
+      // Natural pacing: longer delay after punctuation or longer words
+      const wordDelay = words[i].length > 5 ? 250 : 150;
+      await delay(wordDelay + Math.random() * 100);
     }
 
     await delay(600); // Pause after speaking
 
     // Stage 3: Thinking / Executing / Replying
     setAssistantState('thinking');
-    setVoiceOverlay({ taskPreview: 'Parsing intent...' });
+    
+    const isSudo = persona === 'sudo';
+    const isTitan = persona === 'titan';
+    
+    setVoiceOverlay({ taskPreview: isSudo ? 'parsing_intent()' : isTitan ? 'Interpreting command...' : 'Understanding your request...' });
     await delay(1200);
     
     setAssistantState('executing');
-    setVoiceOverlay({ taskPreview: 'system.openApp' });
+    setVoiceOverlay({ taskPreview: isSudo ? 'resolve_app(vscode)' : isTitan ? 'Locating application...' : 'Opening your workspace...' });
     await delay(1000);
     
-    setVoiceOverlay({ taskPreview: 'fs.readDirectory' });
+    setVoiceOverlay({ taskPreview: isSudo ? 'inspect_directory(~/Downloads)' : isTitan ? 'Scanning target folder...' : 'Reviewing your files...' });
     await delay(1000);
 
-    setVoiceOverlay({ taskPreview: 'ai.summarizeDocuments' });
+    setVoiceOverlay({ taskPreview: isSudo ? 'ai.summarize_documents()' : isTitan ? 'Preparing summary...' : 'Generating summary...' });
     await delay(1500);
 
     setAssistantState('completed');

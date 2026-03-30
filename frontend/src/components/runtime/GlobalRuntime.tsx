@@ -6,8 +6,10 @@ import { ActionResultCard } from './ActionResultCard';
 import { NotificationToast } from './NotificationToast';
 import { FloatingChat } from './FloatingChat';
 import { AnimatePresence } from 'motion/react';
+import { useNavigate } from 'react-router-dom';
 
 export function GlobalRuntime() {
+  const navigate = useNavigate();
   const { 
     assistantState, 
     voiceOverlay, 
@@ -21,10 +23,16 @@ export function GlobalRuntime() {
     removeToast
   } = useRuntimeStore();
 
+  const handleOpenApp = () => {
+    setVoiceOverlay({ isOpen: false });
+    useRuntimeStore.getState().setFloatingChat({ isOpen: false });
+    navigate('/chat');
+  };
+
   return (
     <>
       {/* Floating Chat Layer */}
-      <FloatingChat />
+      <FloatingChat onOpenApp={handleOpenApp} />
 
       {/* Voice Overlay */}
       <AnimatePresence>
@@ -40,6 +48,7 @@ export function GlobalRuntime() {
                   useRuntimeStore.getState().setAssistantState('idle');
                   setVoiceOverlay({ isOpen: false });
                 }}
+                onOpenApp={handleOpenApp}
               />
             </div>
           </div>
